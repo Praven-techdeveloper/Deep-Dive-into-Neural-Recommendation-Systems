@@ -16,6 +16,8 @@ Implements graph neural network for collaborative filtering
 
 Learns user-movie interactions through message passing
 
+
+
 📊 Comprehensive Analytics
 User and movie statistics dashboard
 
@@ -25,10 +27,33 @@ Sentiment analysis with word frequency charts
 
 Top movie recommendations with scoring metrics
 
+
+
 💻 User-Friendly Interface
 Tab-based navigation system
 
 Interactive recommendation cards
+
+Requirements
+Python 3.8+
+
+Streamlit
+
+PyTorch
+
+Transformers
+
+Pandas
+
+NumPy
+
+SciPy
+
+Matplotlib
+
+Seaborn
+
+NLTK
 
 Progress indicators for long operations
 
