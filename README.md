@@ -56,6 +56,7 @@ Seaborn
 NLTK
 
 Technologies Used
+
 🤖 Machine Learning
 DistilBERT: For sentiment analysis of reviews
 
@@ -67,3 +68,11 @@ Progress indicators for long operations
 Sample dataset for quick testing
 
 Responsive design for all screen sizes
+
+
+📊 Data Processing
+Pandas for data manipulation
+
+SciPy for sparse matrix operations
+
+NLTK for text processing
