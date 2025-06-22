@@ -76,3 +76,10 @@ Pandas for data manipulation
 SciPy for sparse matrix operations
 
 NLTK for text processing
+
+🎨 Frontend
+Streamlit for web interface
+
+Matplotlib/Seaborn for visualizations
+
+Custom CSS for styling
