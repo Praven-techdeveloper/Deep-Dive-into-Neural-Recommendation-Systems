@@ -83,3 +83,35 @@ Streamlit for web interface
 Matplotlib/Seaborn for visualizations
 
 Custom CSS for styling
+
+
+
+Methodology
+Sentiment Analysis Pipeline
+Text cleaning and preprocessing
+
+Batch processing with DistilBERT
+
+Sentiment classification (positive/negative)
+
+Movie scoring based on:
+
+Frequency of positive reviews (70% weight)
+
+Average sentiment strength (30% weight)
+
+LightGCN Implementation
+Construct user-movie interaction graph
+
+Create sparse adjacency matrix
+
+Initialize user and movie embeddings
+
+Perform graph convolution:
+
+python
+for _ in range(n_layers):
+    embeddings = torch.sparse.mm(adj_matrix, embeddings)
+Combine embeddings from all layers
+
+Generate recommendations through dot product scoring
