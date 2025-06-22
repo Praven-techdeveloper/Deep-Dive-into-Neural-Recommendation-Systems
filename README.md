@@ -115,3 +115,18 @@ for _ in range(n_layers):
 Combine embeddings from all layers
 
 Generate recommendations through dot product scoring
+
+Future Enhancements
+Add movie posters and metadata
+
+Implement real-time recommendations
+
+Include genre-based filtering
+
+Add user profile management
+
+Deploy as a web service
+
+Implement BPR loss for LightGCN training
+
+Add hybrid recommendation scoring
