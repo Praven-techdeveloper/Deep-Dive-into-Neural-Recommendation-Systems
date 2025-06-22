@@ -55,6 +55,13 @@ Seaborn
 
 NLTK
 
+Technologies Used
+🤖 Machine Learning
+DistilBERT: For sentiment analysis of reviews
+
+LightGCN: Graph neural network for collaborative filtering
+
+PyTorch: Deep learning framework
 Progress indicators for long operations
 
 Sample dataset for quick testing
