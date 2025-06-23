@@ -1,3 +1,7 @@
+import os
+os.environ['USE_TORCH'] = '1'  # Force transformers to use PyTorch
+os.environ['TRANSFORMERS_NO_ADVISORY_WARNINGS'] = '1'  # Disable warnings
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -12,6 +16,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from collections import Counter
+import time
 
 # Download NLTK resources
 nltk.download('punkt')
@@ -88,10 +93,13 @@ if 'item_embeddings' not in st.session_state:
 if 'movie_map' not in st.session_state:
     st.session_state.movie_map = None
 
-# Load sentiment analysis model
+# Fixed sentiment model loader (using PyTorch)
 @st.cache_resource
 def load_sentiment_model():
-    return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+    return pipeline(
+        "sentiment-analysis", 
+        model="distilbert-base-uncased-finetuned-sst-2-english"
+    )
 
 # LightGCN Model
 class LightGCN(nn.Module):
@@ -144,7 +152,12 @@ def train_lightgcn(train_mat, epochs=20, lr=0.001):
     
     adj_matrix = coo_matrix(
         (data, (rows, cols)), 
-        shape=(num_users + num_items, num_users + num_items))
+        shape=(num_users + num_items, num_users + num_items)
+    )
+    
+    # Ensure matrix is in COO format
+    if not isinstance(adj_matrix, coo_matrix):
+        adj_matrix = adj_matrix.tocoo()
     
     # Convert to PyTorch tensor
     indices = torch.LongTensor(np.vstack([adj_matrix.row, adj_matrix.col]))
@@ -152,6 +165,9 @@ def train_lightgcn(train_mat, epochs=20, lr=0.001):
     adj_matrix_tensor = torch.sparse_coo_tensor(
         indices, values, torch.Size(adj_matrix.shape)
     ).to(device)
+    
+    # Coalesce for better performance
+    adj_matrix_tensor = adj_matrix_tensor.coalesce()
     
     # Initialize model
     model = LightGCN(num_users, num_items).to(device)
@@ -163,7 +179,8 @@ def train_lightgcn(train_mat, epochs=20, lr=0.001):
     status_text.text(f"🚀 Training LightGCN model (Epoch 0/{epochs})...")
     
     for epoch in range(epochs):
-        model.zero_grad()
+        model.train()
+        optimizer.zero_grad()
         user_emb, item_emb = model(adj_matrix_tensor)
         
         # Simple loss (in practice, use BPR loss)
